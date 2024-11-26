@@ -1,4 +1,4 @@
-from controller.controller import IController, Direction
+from controller.controller import IController
 from pynput import keyboard
 
 class KeyboardController(IController):
@@ -14,19 +14,6 @@ class KeyboardController(IController):
             return 
         if not hasattr(key, 'char'):
             return
-        if key.char == 'a':
-            self.dir = Direction.LEFT
-        elif key.char == 'd':
-            self.dir = Direction.RIGHT
-        elif key.char == 'w':
-            self.dir = Direction.UP
-        elif key.char == 's':
-            self.dir = Direction.DOWN
-        else:
-            self.dir = None
-        
-    def get_direction(self) -> Direction:
-        return self.dir
     
     def start_button(self) -> bool:
         if self.isSpaceClicked:

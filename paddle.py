@@ -2,7 +2,7 @@ class Paddle:
     def __init__(self, x: float, y: float) -> None:
         self.locX = x
         self.locY = y
-        self.length = 8
+        self.length = 4
         self.color = (0, 255, 0)
 
     def move(self, x):

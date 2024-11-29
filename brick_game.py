@@ -46,11 +46,11 @@ class BrickGame():
             moveTarget = self.paddle.locX + control
             if moveTarget >= 0 and (moveTarget + self.paddle.length) <= self.mapWidth:
                 self.paddle.move(moveTarget)
+        self.displayText = f"Ball location: ({self.ball.locX:.2f}, {self.ball.locY:.2f})\nBall vector: {self.ball.vector}"
+        self.ball.move()
         self.draw_ball()
         self.draw_paddle()
         self.draw_brick()
-        self.displayText = f"Ball location: ({self.ball.locX:.2f}, {self.ball.locY:.2f})\nBall vector: {self.ball.vector}"
-        self.ball.move()
         
         for brick in self.bricks:
             if brick.is_hit_brick(self.ball.locX, self.ball.locY):
@@ -63,11 +63,11 @@ class BrickGame():
                         return
         if self.paddle.is_in_paddle(self.ball.locX, self.ball.locY):
             self.ball.bounce((0, -1))
-        elif self.is_in_left_wall(self.ball.locX):
+        if self.is_in_left_wall(self.ball.locX):
             self.ball.bounce((1, 0))
-        elif self.is_in_right_wall(self.ball.locX):
+        if self.is_in_right_wall(self.ball.locX):
             self.ball.bounce((-1, 0))
-        elif self.is_in_top_wall(self.ball.locY):
+        if self.is_in_top_wall(self.ball.locY):
             self.ball.bounce((0, 1))
         if self.is_in_bottom_wall(self.ball.locY):
             self.game_over("Lose")
@@ -134,16 +134,18 @@ class BrickGame():
         return x <= 0
     
     def is_in_right_wall(self, x):
-        return x+1 >= self.mapWidth
+        return x >= self.mapWidth-0.5
     
     def is_in_top_wall(self, y):
         return y <= 0
     
     def is_in_bottom_wall(self, y):
-        return y+1 >= self.mapHeight
+        return y >= self.mapHeight-0.5
     
-from controller.keyboard_controller import KeyboardController
-from display.cli_display import CliDisplay
-controller = KeyboardController()
-display = CliDisplay(8, 8)
+from controller.joystick import JoystickController
+from display.sense_hat_display import SenseHatDisplay
+from sense_emu import SenseHat
+sense = SenseHat()
+controller = JoystickController(sense)
+display = SenseHatDisplay(8, 8, sense)
 BrickGame(controller, display)

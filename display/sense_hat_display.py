@@ -1,9 +1,9 @@
 from sense_emu import SenseHat
 import copy
-from display import IDisplay
+from display.display import IDisplay
 class SenseHatDisplay(IDisplay):
-    def __init__(self, width=8, height=8):
-        self.sense = SenseHat()
+    def __init__(self, width=8, height=8, sense: SenseHat = None) -> None:
+        self.sense = sense
         self.sense.clear()
         self.width = width
         self.height = height

@@ -11,3 +11,10 @@ class Brick:
         
     def get_color(self):
         return self.healthColor[self.health]
+    
+    def is_hit_brick(self, x, y):
+        if y < self.locY or y > self.locY + 1:
+            return False
+        if x < self.locX or x > self.locX + 1:
+            return False
+        return True
